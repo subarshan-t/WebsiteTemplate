@@ -1,0 +1,150 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Arrow from '../components/Arrow.astro';
+import { site } from '../data/site';
+const interests = ['Branding', 'UI/UX', 'Website', 'Marketing', 'Motion', 'Other'];
+const budgets = ['< $15k', '$15–30k', '$30–60k', '$60k+'];
+---
+<Base title="Contact" description="Start a project with Redox." cta={false}>
+  <PageHero eyebrow="Contact" title="Let’s work<br /><em class='accent'>together</em>" lead="Tell us a little about your project and we’ll get back to you within one business day." />
+
+  <section class="section">
+    <div class="container wrap">
+      <aside class="info">
+        <div data-reveal><span>Email</span><a href={`mailto:${site.email}`} class="link">{site.email}</a></div>
+        <div data-reveal><span>Phone</span><a href={`tel:${site.phone.replace(/[^+\d]/g, '')}`} class="link">{site.phone}</a></div>
+        <div data-reveal><span>Studio</span><p>{site.address}</p></div>
+        <div data-reveal><span>Follow</span><p class="socials">{site.socials.map((s) => <a href={s.href} class="link">{s.label}</a>)}</p></div>
+      </aside>
+
+      <!-- Static form: point `action` at Formspree, Netlify Forms, or your own endpoint. -->
+      <form class="form" action="#" method="post" data-reveal>
+        <fieldset>
+          <legend>I’m interested in…</legend>
+          <div class="chips">
+            {interests.map((i) => <label class="chip"><input type="checkbox" name="interest" value={i} /><span>{i}</span></label>)}
+          </div>
+        </fieldset>
+        <div class="row">
+          <label class="field"><span>Your name</span><input name="name" required autocomplete="name" /></label>
+          <label class="field"><span>Email</span><input name="email" type="email" required autocomplete="email" /></label>
+        </div>
+        <label class="field"><span>Company</span><input name="company" autocomplete="organization" /></label>
+        <fieldset>
+          <legend>Budget</legend>
+          <div class="chips">
+            {budgets.map((b, i) => <label class="chip"><input type="radio" name="budget" value={b} checked={i === 1} /><span>{b}</span></label>)}
+          </div>
+        </fieldset>
+        <label class="field"><span>Tell us about your project</span><textarea name="message" rows="5" required></textarea></label>
+        <button type="submit" class="btn btn--solid">Send message <Arrow /></button>
+      </form>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .wrap {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: clamp(40px, 6vw, 100px);
+  }
+  .info {
+    display: grid;
+    gap: 36px;
+    align-content: start;
+  }
+  .info span,
+  legend,
+  .field span {
+    display: block;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .info a,
+  .info p {
+    font-size: 20px;
+  }
+  .socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .form {
+    display: grid;
+    gap: 36px;
+  }
+  fieldset {
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
+  legend {
+    margin-bottom: 16px;
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .chip input {
+    position: absolute;
+    opacity: 0;
+  }
+  .chip span {
+    display: inline-block;
+    padding: 10px 22px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .chip input:checked + span {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-fg);
+  }
+  .chip input:focus-visible + span {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  .field input,
+  .field textarea {
+    width: 100%;
+    background: none;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--fg);
+    font: inherit;
+    font-size: 20px;
+    padding: 10px 0;
+    resize: vertical;
+    transition: border-color 0.3s ease;
+  }
+  .field input:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+  .form .btn {
+    justify-self: start;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 500;
+  }
+  @media (max-width: 860px) {
+    .wrap,
+    .row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

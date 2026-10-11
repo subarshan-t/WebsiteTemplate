@@ -1,0 +1,632 @@
+---
+import Base from '../layouts/Base.astro';
+import Art from '../components/Art.astro';
+import Arrow from '../components/Arrow.astro';
+import Marquee from '../components/Marquee.astro';
+import { projects, services, stats, clients, testimonials, process, posts, formatDate } from '../data/site';
+---
+<Base>
+  <!-- Hero (modelled on the Redox "Digital Agency" demo) -->
+  <section class="hero">
+    <div class="container hero__grid">
+      <a href="#about" class="hero__badge" aria-label="Scroll to about" data-reveal>
+        <svg viewBox="0 0 100 100" aria-hidden="true"><defs><path id="badge" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0" /></defs><text><textPath href="#badge">DIGITAL AGENCY • CREATIVE STUDIO • </textPath></text></svg>
+        <span>R.</span>
+      </a>
+      <h1 class="hero__title" data-split>
+        Let’s sharpen<br />your brand<br />with <span class="hero__pill" aria-hidden="true"><i></i></span> quality<br />work
+      </h1>
+      <div class="hero__side">
+        <div class="hero__stats">
+          <div data-reveal data-delay="0.2"><strong><span data-count="98">98</span>%</strong><p>Average clients satisfied and repeating</p></div>
+          <div data-reveal data-delay="0.3"><strong><span data-count="120">120</span>+</strong><p>Successful projects done in 24 countries</p></div>
+        </div>
+        <p class="hero__text" data-reveal data-delay="0.4">We’re a digital product design &amp; development agency that works passionately with the digital experiences.</p>
+        <a href="/portfolio" class="btn btn--solid" data-reveal data-delay="0.5">Explore our work <Arrow /></a>
+      </div>
+    </div>
+    <div class="hero__word condensed" aria-hidden="true" data-hero-word>Redox</div>
+    <div class="container hero__media" data-reveal>
+      <Art hue={18} variant={1} label="Studio showreel" parallax />
+    </div>
+  </section>
+
+  <Marquee items={['Branding', 'UI/UX Design', 'Development', 'Motion', 'Marketing']} speed="40s" />
+
+  <!-- About -->
+  <section class="section" id="about">
+    <div class="container about">
+      <span class="eyebrow" data-reveal>About us</span>
+      <div>
+        <p class="about__text" data-reveal>
+          We are a team of designers, developers and strategists who believe great work comes from <span class="accent">curiosity</span>, craft and honest collaboration.
+        </p>
+        <a href="/about" class="btn" data-reveal>More about us <Arrow /></a>
+      </div>
+    </div>
+    <div class="container stats">
+      {stats.map((s, i) => (
+        <div class="stat" data-reveal data-delay={String(i * 0.1)}>
+          <div class="stat__value"><span data-count={s.value}>{s.value}</span>{s.suffix}</div>
+          <p>{s.label}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="section services-sec">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow" data-reveal>What we do</span>
+          <h2 class="h2" data-split>Services built<br />for <em class="accent">growth</em></h2>
+        </div>
+        <a href="/services" class="btn" data-reveal>All services <Arrow /></a>
+      </div>
+      <div class="svc-list">
+        {services.map((s) => (
+          <a href="/services" class="svc" data-reveal>
+            <span class="svc__no">{s.no}</span>
+            <h3 class="svc__title">{s.title}</h3>
+            <p class="svc__text">{s.text}</p>
+            <span class="svc__arrow"><Arrow /></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured works: horizontal scroll -->
+  <section class="works" data-hscroll>
+    <div class="works__track" data-hscroll-track>
+      <div class="works__intro">
+        <span class="eyebrow">Selected works</span>
+        <h2 class="h2">Reach our<br />featured <em class="accent">works</em></h2>
+        <p class="lead">A handful of recent projects we’re proud of.</p>
+        <a href="/portfolio" class="btn">All projects <Arrow /></a>
+      </div>
+      {projects.slice(0, 5).map((p, i) => (
+        <a href={`/portfolio/${p.slug}`} class="work" data-cursor="View">
+          <Art hue={p.hue} variant={i} label={p.title} />
+          <div class="work__meta">
+            <span>0{i + 1}</span>
+            <h3>{p.title}</h3>
+            <span>{p.category}</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow" data-reveal>How we work</span>
+          <h2 class="h2" data-split>Our <em class="accent">process</em></h2>
+        </div>
+      </div>
+      <div class="process">
+        {process.map((p, i) => (
+          <div class="step" data-reveal data-delay={String(i * 0.1)}>
+            <span class="step__no">{p.no}</span>
+            <h3 class="h3">{p.title}</h3>
+            <p>{p.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section testi-sec">
+    <div class="container">
+      <span class="eyebrow" data-reveal>Testimonials</span>
+      <div class="testi" data-testi>
+        {testimonials.map((t, i) => (
+          <figure class:list={['testi__item', { 'is-active': i === 0 }]}>
+            <blockquote>“{t.quote}”</blockquote>
+            <figcaption><strong>{t.name}</strong><span>{t.role}</span></figcaption>
+          </figure>
+        ))}
+      </div>
+      <div class="testi__nav">
+        {testimonials.map((_, i) => (
+          <button class:list={['testi__dot', { 'is-active': i === 0 }]} data-testi-dot={i} aria-label={`Show testimonial ${i + 1}`}></button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Clients -->
+  <section class="clients">
+    <p class="eyebrow container">Trusted by brands worldwide</p>
+    <Marquee items={clients} size="sm" reverse speed="35s" />
+  </section>
+
+  <!-- Blog -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow" data-reveal>Journal</span>
+          <h2 class="h2" data-split>Latest <em class="accent">insights</em></h2>
+        </div>
+        <a href="/blog" class="btn" data-reveal>Read the blog <Arrow /></a>
+      </div>
+      <div class="posts">
+        {posts.map((p, i) => (
+          <a href={`/blog/${p.slug}`} class="post" data-reveal data-delay={String(i * 0.1)} data-cursor="Read">
+            <Art hue={p.hue} variant={i + 1} label={p.title} class="post__art" />
+            <div class="post__meta"><span>{p.category}</span><span>{formatDate(p.date)}</span></div>
+            <h3>{p.title}</h3>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  // Simple auto-rotating testimonial slider
+  const items = document.querySelectorAll<HTMLElement>('.testi__item');
+  const dots = document.querySelectorAll<HTMLButtonElement>('[data-testi-dot]');
+  let current = 0;
+  let timer: number;
+  const show = (i: number) => {
+    items[current].classList.remove('is-active');
+    dots[current].classList.remove('is-active');
+    current = i;
+    items[current].classList.add('is-active');
+    dots[current].classList.add('is-active');
+  };
+  const start = () => (timer = window.setInterval(() => show((current + 1) % items.length), 6000));
+  dots.forEach((d) =>
+    d.addEventListener('click', () => {
+      clearInterval(timer);
+      show(Number(d.dataset.testiDot));
+      start();
+    }),
+  );
+  start();
+</script>
+
+<style>
+  .hero {
+    padding-top: clamp(130px, 14vw, 170px);
+    overflow: hidden;
+  }
+  .hero__grid {
+    display: grid;
+    grid-template-columns: auto 1.4fr 1fr;
+    gap: clamp(24px, 4vw, 64px);
+    align-items: start;
+  }
+  .hero__badge {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    display: grid;
+    place-items: center;
+    margin-top: 8%;
+  }
+  .hero__badge svg {
+    position: absolute;
+    inset: 0;
+    animation: spin 14s linear infinite;
+    fill: var(--muted);
+    font-size: 9.5px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+  }
+  .hero__badge span {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--fg);
+    color: var(--bg);
+    display: grid;
+    place-items: center;
+    font-weight: 600;
+    font-size: 20px;
+  }
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .hero__title {
+    font-size: clamp(44px, 6.4vw, 104px);
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+  }
+  .hero__pill {
+    display: inline-flex;
+    align-items: center;
+    width: 1.2em;
+    height: 0.62em;
+    border-radius: 999px;
+    background: var(--accent);
+    vertical-align: 0.06em;
+    padding: 0 0.12em;
+  }
+  .hero__pill i {
+    width: 0.42em;
+    height: 0.42em;
+    border-radius: 50%;
+    border: 0.08em solid var(--bg);
+    animation: slide 2.4s ease-in-out infinite alternate;
+  }
+  @keyframes slide {
+    to {
+      transform: translateX(0.5em);
+    }
+  }
+  .hero__side {
+    display: grid;
+    gap: 32px;
+    justify-items: start;
+  }
+  .hero__stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--line);
+    width: 100%;
+  }
+  .hero__stats strong {
+    display: block;
+    font-weight: 400;
+    font-size: clamp(44px, 5vw, 76px);
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+  .hero__stats p,
+  .hero__text {
+    color: var(--muted);
+    font-size: 15px;
+    margin-top: 8px;
+  }
+  .hero__word {
+    color: var(--accent);
+    font-size: 36.5vw;
+    text-align: center;
+    margin: clamp(24px, 4vw, 56px) 0 0;
+    line-height: 0.78;
+    white-space: nowrap;
+  }
+  .hero__media {
+    margin-top: clamp(24px, 4vw, 48px);
+    margin-bottom: clamp(48px, 8vw, 100px);
+  }
+  .hero__media :global(.art) {
+    --ratio: 16 / 7;
+  }
+  @media (max-width: 1024px) {
+    .hero__grid {
+      grid-template-columns: 1fr;
+    }
+    .hero__badge {
+      display: none;
+    }
+  }
+
+  .about {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 40px;
+  }
+  .about > div {
+    display: grid;
+    gap: 40px;
+    justify-items: start;
+  }
+  .about__text {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 56px);
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: clamp(60px, 8vw, 120px);
+    border-top: 1px solid var(--line);
+  }
+  .stat {
+    padding: 40px 24px 0 0;
+    color: var(--muted);
+  }
+  .stat__value {
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    font-size: clamp(48px, 6vw, 96px);
+    line-height: 1;
+    color: var(--fg);
+    margin-bottom: 12px;
+  }
+
+  .services-sec {
+    background: var(--bg-soft);
+  }
+  .svc-list {
+    border-top: 1px solid var(--line);
+  }
+  .svc {
+    position: relative;
+    display: grid;
+    grid-template-columns: 80px 1.3fr 1fr 60px;
+    align-items: center;
+    gap: 24px;
+    padding: 36px 0;
+    border-bottom: 1px solid var(--line);
+    isolation: isolate;
+  }
+  .svc::before {
+    content: '';
+    position: absolute;
+    inset: 0 calc(var(--gutter) * -1);
+    z-index: -1;
+    background: var(--accent);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.5s cubic-bezier(0.7, 0, 0.2, 1);
+  }
+  .svc:hover::before {
+    transform: scaleY(1);
+  }
+  .svc:hover {
+    color: var(--accent-fg);
+  }
+  .svc:hover .svc__text,
+  .svc:hover .svc__no {
+    color: var(--accent-fg);
+  }
+  .svc__no,
+  .svc__text {
+    color: var(--muted);
+    transition: color 0.4s ease;
+  }
+  .svc__title {
+    font-size: clamp(28px, 4vw, 56px);
+    transition: transform 0.5s ease;
+  }
+  .svc:hover .svc__title {
+    transform: translateX(16px);
+  }
+  .svc__arrow {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+    display: grid;
+    place-items: center;
+    transform: rotate(-45deg);
+    transition: transform 0.4s ease;
+  }
+  .svc__arrow :global(svg) {
+    width: 22px;
+  }
+  .svc:hover .svc__arrow {
+    transform: rotate(0);
+  }
+
+  .works {
+    overflow: hidden;
+    padding: clamp(80px, 10vw, 120px) 0;
+  }
+  .works__track {
+    display: flex;
+    gap: clamp(24px, 3vw, 48px);
+    padding: 0 var(--gutter);
+    width: max-content;
+    align-items: center;
+  }
+  .works__intro {
+    width: min(420px, 80vw);
+    display: grid;
+    gap: 24px;
+    justify-items: start;
+    flex-shrink: 0;
+  }
+  .work {
+    width: min(520px, 80vw);
+    flex-shrink: 0;
+    display: grid;
+    gap: 16px;
+  }
+  .work :global(.art) {
+    --ratio: 4 / 5;
+  }
+  .work :global(.art__inner svg) {
+    transition: transform 1s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .work:hover :global(.art__inner svg) {
+    transform: scale(1.06);
+  }
+  .work__meta {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 16px;
+    align-items: baseline;
+    color: var(--muted);
+  }
+  .work__meta h3 {
+    color: var(--fg);
+    font-size: clamp(22px, 2.4vw, 32px);
+  }
+  @media (max-width: 899px) {
+    .works__track {
+      width: auto;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 16px;
+    }
+    .work,
+    .works__intro {
+      scroll-snap-align: start;
+    }
+  }
+
+  .process {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .step {
+    display: grid;
+    gap: 16px;
+    align-content: start;
+    padding: 32px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    color: var(--muted);
+    transition: border-color 0.4s ease, transform 0.4s ease;
+  }
+  .step:hover {
+    border-color: var(--accent);
+    transform: translateY(-6px);
+  }
+  .step h3 {
+    color: var(--fg);
+  }
+  .step__no {
+    font-family: var(--font-condensed);
+    font-size: 72px;
+    line-height: 1;
+    -webkit-text-stroke: 1.5px var(--accent);
+    color: transparent;
+  }
+
+  .testi-sec {
+    background: var(--accent);
+    color: var(--accent-fg);
+  }
+  .testi-sec .eyebrow {
+    color: inherit;
+  }
+  .testi-sec .eyebrow::before {
+    background: var(--accent-fg);
+  }
+  .testi {
+    display: grid;
+    margin-top: 40px;
+  }
+  .testi__item {
+    grid-area: 1 / 1;
+    margin: 0;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    pointer-events: none;
+  }
+  .testi__item.is-active {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+  .testi__item blockquote {
+    margin: 0 0 40px;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(26px, 4vw, 56px);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+  .testi__item figcaption {
+    display: grid;
+    gap: 4px;
+  }
+  .testi__nav {
+    display: flex;
+    gap: 10px;
+    margin-top: 40px;
+  }
+  .testi__dot {
+    width: 40px;
+    height: 4px;
+    border: 0;
+    border-radius: 4px;
+    background: currentColor;
+    opacity: 0.3;
+    cursor: pointer;
+    transition: opacity 0.3s ease, width 0.3s ease;
+  }
+  .testi__dot.is-active {
+    opacity: 1;
+    width: 72px;
+  }
+
+  .clients {
+    display: grid;
+    gap: 32px;
+    padding: 80px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .posts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+  .post {
+    display: grid;
+    gap: 16px;
+    align-content: start;
+  }
+  .post :global(.art) {
+    --ratio: 4 / 3;
+  }
+  .post__meta {
+    display: flex;
+    gap: 16px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .post__meta span:first-child {
+    color: var(--accent);
+  }
+  .post h3 {
+    font-size: clamp(20px, 2vw, 26px);
+    line-height: 1.2;
+  }
+
+  @media (max-width: 1024px) {
+    .process {
+      grid-template-columns: 1fr 1fr;
+    }
+    .posts {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (max-width: 720px) {
+    .about,
+    .process,
+    .posts {
+      grid-template-columns: 1fr;
+    }
+    .stats {
+      grid-template-columns: 1fr 1fr;
+    }
+    .svc {
+      grid-template-columns: 40px 1fr 44px;
+    }
+    .svc__text {
+      display: none;
+    }
+    .svc__arrow {
+      width: 44px;
+      height: 44px;
+    }
+    .hero__media :global(.art) {
+      --ratio: 4 / 3;
+    }
+    .hero__stats {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

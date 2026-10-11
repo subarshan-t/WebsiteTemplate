@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import Arrow from '../components/Arrow.astro';
+---
+<Base title="Page not found" cta={false}>
+  <section class="nf container">
+    <div class="condensed nf__code accent">404</div>
+    <h1 class="h2">This page took a <em>creative</em> detour.</h1>
+    <a href="/" class="btn btn--solid">Back home <Arrow /></a>
+  </section>
+</Base>
+
+<style>
+  .nf {
+    min-height: 90vh;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    text-align: center;
+    gap: 32px;
+    padding-top: 120px;
+    padding-bottom: 80px;
+  }
+  .nf__code {
+    font-size: clamp(160px, 40vw, 480px);
+  }
+</style>

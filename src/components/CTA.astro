@@ -1,0 +1,51 @@
+---
+import Arrow from './Arrow.astro';
+import Marquee from './Marquee.astro';
+---
+<section class="cta">
+  <Marquee items={["Let's talk", 'Start a project', "Let's talk", 'Start a project']} speed="24s" />
+  <div class="container cta__inner">
+    <p class="lead" data-reveal>Have an idea worth building? We’d love to hear about it. Tell us about your project and we’ll get back within one business day.</p>
+    <a href="/contact" class="cta__circle" data-magnetic>
+      <span>Get in touch</span>
+      <Arrow />
+    </a>
+  </div>
+</section>
+
+<style>
+  .cta {
+    padding: clamp(80px, 10vw, 140px) 0;
+    border-top: 1px solid var(--line);
+  }
+  .cta__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    margin-top: clamp(40px, 6vw, 80px);
+  }
+  .cta__circle {
+    width: clamp(160px, 18vw, 220px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--accent-fg);
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 18px;
+    transition: background 0.4s ease, color 0.4s ease;
+  }
+  .cta__circle :global(svg) {
+    width: 24px;
+    transform: rotate(-45deg);
+  }
+  .cta__circle:hover {
+    background: var(--fg);
+    color: var(--bg);
+  }
+</style>

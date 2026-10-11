@@ -1,0 +1,104 @@
+---
+import { nav, site } from '../data/site';
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__col footer__brand">
+        <p class="h3">Let’s create something<br /><em class="accent">extraordinary</em> together.</p>
+        <a href={`mailto:${site.email}`} class="footer__email link">{site.email}</a>
+      </div>
+      <div class="footer__col">
+        <h4>Menu</h4>
+        {nav.map((n) => <a href={n.href} class="link">{n.label}</a>)}
+      </div>
+      <div class="footer__col">
+        <h4>Social</h4>
+        {site.socials.map((s) => <a href={s.href} class="link">{s.label}</a>)}
+      </div>
+      <div class="footer__col">
+        <h4>Studio</h4>
+        <p>{site.address}</p>
+        <a href={`tel:${site.phone.replace(/[^+\d]/g, '')}`} class="link">{site.phone}</a>
+      </div>
+    </div>
+    <div class="footer__word" aria-hidden="true">{site.name}</div>
+    <div class="footer__bottom">
+      <span>© {year} {site.name}. All rights reserved.</span>
+      <button class="footer__top-btn link" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">Back to top ↑</button>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--bg-soft);
+    padding: clamp(80px, 10vw, 120px) 0 32px;
+    overflow: hidden;
+  }
+  .footer__top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.3fr;
+    gap: 40px;
+  }
+  .footer__col {
+    display: grid;
+    align-content: start;
+    gap: 10px;
+    color: var(--muted);
+  }
+  .footer__col h4 {
+    font-family: var(--font-body);
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--fg);
+    margin-bottom: 8px;
+  }
+  .footer__col a {
+    justify-self: start;
+  }
+  .footer__brand {
+    gap: 28px;
+    color: var(--fg);
+  }
+  .footer__email {
+    font-size: clamp(20px, 2vw, 28px);
+    font-weight: 600;
+  }
+  .footer__word {
+    font-family: var(--font-condensed);
+    text-transform: uppercase;
+    font-size: clamp(120px, 33vw, 520px);
+    line-height: 0.8;
+    text-align: center;
+    margin: clamp(60px, 8vw, 100px) 0 40px;
+    color: var(--accent);
+  }
+  .footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 16px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .footer__top-btn {
+    background: none;
+    border: 0;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+  }
+  @media (max-width: 900px) {
+    .footer__top {
+      grid-template-columns: 1fr 1fr;
+    }
+    .footer__brand {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

@@ -1,0 +1,26 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string; // use <br> to break lines
+  lead?: string;
+}
+const { eyebrow, title, lead } = Astro.props;
+---
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow" data-reveal>{eyebrow}</span>
+    <h1 class="display" data-split set:html={title} />
+    {lead && <p class="lead" data-reveal data-delay="0.3">{lead}</p>}
+  </div>
+</section>
+
+<style>
+  .page-hero {
+    padding: clamp(160px, 22vw, 260px) 0 clamp(60px, 8vw, 120px);
+    border-bottom: 1px solid var(--line);
+  }
+  .page-hero .container {
+    display: grid;
+    gap: 32px;
+  }
+</style>

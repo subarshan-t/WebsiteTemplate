@@ -1,0 +1,170 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Art from '../components/Art.astro';
+import { services, process } from '../data/site';
+
+const faqs = [
+  { q: 'How long does a typical project take?', a: 'Brand projects usually run 6–10 weeks; websites and products 8–16 weeks depending on scope.' },
+  { q: 'Do you work with startups?', a: 'Yes — around half our clients are early-stage. We offer sprint-based engagements that fit tighter budgets.' },
+  { q: 'Can you work with our in-house team?', a: 'Absolutely. We often embed with internal designers and engineers and leave behind systems they can own.' },
+  { q: 'What does it cost?', a: 'Projects typically start at $15k. Tell us about your goals and we’ll send a tailored proposal.' },
+];
+---
+<Base title="Services" description="Brand identity, UI/UX, web development, marketing and motion.">
+  <PageHero eyebrow="Services" title="What we <em class='accent'>do</em><br />best" lead="Five disciplines, one team. We combine strategy, design and technology to build brands that move." />
+
+  <section class="section">
+    <div class="container">
+      {services.map((s, i) => (
+        <article class="service" data-reveal>
+          <span class="service__no condensed">{s.no}</span>
+          <div class="service__body">
+            <h2 class="h2">{s.title}</h2>
+            <p class="lead">{s.text}</p>
+            <ul>{s.items.map((it) => <li>{it}</li>)}</ul>
+          </div>
+          <Art hue={[18, 210, 145, 280, 40][i]} variant={i} label={s.title} class="service__art" />
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section process-sec">
+    <div class="container">
+      <div class="section-head"><div><span class="eyebrow" data-reveal>Process</span><h2 class="h2" data-split>From idea<br />to <em class="accent">launch</em></h2></div></div>
+      <ol class="process">
+        {process.map((p) => (
+          <li data-reveal><span class="condensed">{p.no}</span><h3 class="h3">{p.title}</h3><p>{p.text}</p></li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container faq-wrap">
+      <div><span class="eyebrow" data-reveal>FAQ</span><h2 class="h2" data-split>Questions,<br /><em class="accent">answered</em></h2></div>
+      <div class="faq">
+        {faqs.map((f, i) => (
+          <details open={i === 0} data-reveal>
+            <summary>{f.q}<span aria-hidden="true">+</span></summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .service {
+    display: grid;
+    grid-template-columns: 120px 1.4fr 1fr;
+    gap: clamp(24px, 4vw, 64px);
+    padding: clamp(40px, 6vw, 80px) 0;
+    border-bottom: 1px solid var(--line);
+    align-items: start;
+  }
+  .service:first-child {
+    border-top: 1px solid var(--line);
+  }
+  .service__no {
+    font-size: 80px;
+    color: var(--accent);
+  }
+  .service__body {
+    display: grid;
+    gap: 24px;
+  }
+  .service ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .service li {
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 8px 18px;
+    font-size: 14px;
+  }
+  .service :global(.service__art) {
+    --ratio: 4 / 3;
+  }
+  .process-sec {
+    background: var(--bg-soft);
+  }
+  .process {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .process li {
+    display: grid;
+    gap: 14px;
+    align-content: start;
+    padding-top: 24px;
+    border-top: 2px solid var(--accent);
+    color: var(--muted);
+  }
+  .process li span {
+    font-size: 56px;
+    color: var(--fg);
+  }
+  .process h3 {
+    color: var(--fg);
+  }
+  .faq-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 60px;
+  }
+  .faq details {
+    border-bottom: 1px solid var(--line);
+    padding: 24px 0;
+  }
+  .faq summary {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    font-size: clamp(18px, 2vw, 24px);
+    cursor: pointer;
+  }
+  .faq summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq summary span {
+    color: var(--accent);
+    font-size: 28px;
+    line-height: 1;
+    transition: transform 0.3s ease;
+  }
+  .faq details[open] summary span {
+    transform: rotate(45deg);
+  }
+  .faq p {
+    color: var(--muted);
+    padding-top: 16px;
+    max-width: 600px;
+  }
+  @media (max-width: 900px) {
+    .service {
+      grid-template-columns: 1fr;
+    }
+    .service__no {
+      font-size: 56px;
+    }
+    .process {
+      grid-template-columns: 1fr 1fr;
+    }
+    .faq-wrap {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,155 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Art from '../components/Art.astro';
+import Marquee from '../components/Marquee.astro';
+import { stats, team, clients } from '../data/site';
+
+const values = [
+  { title: 'Curiosity first', text: 'We ask better questions so we can find better answers.' },
+  { title: 'Craft matters', text: 'The last 10% of polish is where good becomes memorable.' },
+  { title: 'Radical honesty', text: 'Clear feedback, transparent pricing, no surprises.' },
+];
+---
+<Base title="About" description="Meet the team behind Redox — designers, developers and strategists.">
+  <PageHero eyebrow="About us" title="We are <em class='accent'>Redox</em><br />creative studio" lead="Since 2014 we’ve partnered with startups and global brands to build identities, products and websites people love." />
+
+  <section class="section">
+    <div class="container story">
+      <div class="story__media" data-reveal><Art hue={18} variant={0} label="Our studio" parallax /></div>
+      <div class="story__text">
+        <span class="eyebrow" data-reveal>Our story</span>
+        <h2 class="h2" data-split>Small team,<br /><em>big</em> ideas</h2>
+        <p class="lead" data-reveal>Redox started as two friends with a shared desk and a stubborn belief that design should do more than look good. Today we’re a team of 25 across New York and Lisbon — still small enough to care about every pixel.</p>
+        <p class="lead" data-reveal>We work in tight, senior teams embedded with our clients, moving from strategy to shipped product without the hand-offs.</p>
+      </div>
+    </div>
+    <div class="container stats">
+      {stats.map((s) => (
+        <div class="stat" data-reveal>
+          <div class="stat__value"><span data-count={s.value}>{s.value}</span>{s.suffix}</div>
+          <p>{s.label}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section values-sec">
+    <div class="container">
+      <div class="section-head"><div><span class="eyebrow" data-reveal>Our values</span><h2 class="h2" data-split>What drives <em class="accent">us</em></h2></div></div>
+      <div class="values">
+        {values.map((v, i) => (
+          <div class="value" data-reveal data-delay={String(i * 0.1)}>
+            <span class="value__no condensed">0{i + 1}</span>
+            <h3 class="h3">{v.title}</h3>
+            <p>{v.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><div><span class="eyebrow" data-reveal>Our team</span><h2 class="h2" data-split>Meet the <em class="accent">people</em></h2></div></div>
+      <div class="team">
+        {team.map((m, i) => (
+          <div class="member" data-reveal data-delay={String(i * 0.1)}>
+            <Art hue={m.hue} variant={i} label={m.name} />
+            <h3>{m.name}</h3>
+            <p>{m.role}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="clients">
+    <Marquee items={clients} size="sm" speed="35s" />
+  </section>
+</Base>
+
+<style>
+  .story {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(40px, 6vw, 100px);
+    align-items: center;
+  }
+  .story__text {
+    display: grid;
+    gap: 28px;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: clamp(60px, 8vw, 120px);
+    border-top: 1px solid var(--line);
+  }
+  .stat {
+    padding-top: 40px;
+    color: var(--muted);
+  }
+  .stat__value {
+    font-size: clamp(48px, 6vw, 96px);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--fg);
+    margin-bottom: 12px;
+  }
+  .values-sec {
+    background: var(--bg-soft);
+  }
+  .values {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .value {
+    display: grid;
+    gap: 16px;
+    padding: 40px;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    color: var(--muted);
+  }
+  .value h3 {
+    color: var(--fg);
+  }
+  .value__no {
+    font-size: 72px;
+    color: var(--accent);
+  }
+  .team {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .member {
+    display: grid;
+    gap: 8px;
+  }
+  .member :global(.art) {
+    margin-bottom: 12px;
+  }
+  .member h3 {
+    font-size: 24px;
+  }
+  .member p {
+    color: var(--muted);
+  }
+  .clients {
+    padding: 60px 0;
+    border-top: 1px solid var(--line);
+  }
+  @media (max-width: 900px) {
+    .story,
+    .values {
+      grid-template-columns: 1fr;
+    }
+    .team,
+    .stats {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

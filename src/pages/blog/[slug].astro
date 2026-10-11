@@ -1,0 +1,117 @@
+---
+import Base from '../../layouts/Base.astro';
+import Art from '../../components/Art.astro';
+import { posts, formatDate, type Post } from '../../data/site';
+
+export function getStaticPaths() {
+  return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+interface Props {
+  post: Post;
+}
+const { post } = Astro.props;
+const related = posts.filter((p) => p.slug !== post.slug).slice(0, 2);
+---
+<Base title={post.title} description={post.excerpt}>
+  <article>
+    <header class="head container">
+      <a href="/blog" class="back link" data-reveal>← Back to journal</a>
+      <div class="meta" data-reveal><span>{post.category}</span><span>{formatDate(post.date)}</span><span>{post.readTime}</span></div>
+      <h1 class="title" data-reveal>{post.title}</h1>
+    </header>
+    <div class="container cover" data-reveal>
+      <Art hue={post.hue} variant={1} label={post.title} parallax />
+    </div>
+    <div class="container prose">
+      <p class="lead">{post.excerpt}</p>
+      {post.body.map((para) => <p data-reveal>{para}</p>)}
+    </div>
+  </article>
+
+  <section class="section related">
+    <div class="container">
+      <h2 class="h3">Keep <em class="accent">reading</em></h2>
+      <div class="related__grid">
+        {related.map((p) => (
+          <a href={`/blog/${p.slug}`} class="link-card">
+            <span class="meta"><span>{p.category}</span><span>{formatDate(p.date)}</span></span>
+            <h3>{p.title}</h3>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .head {
+    display: grid;
+    gap: 24px;
+    max-width: 1000px;
+    padding-top: clamp(150px, 18vw, 220px);
+    padding-bottom: clamp(40px, 6vw, 64px);
+  }
+  .back {
+    justify-self: start;
+    color: var(--muted);
+  }
+  .title {
+    font-size: clamp(36px, 5.5vw, 84px);
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .meta > span:first-child {
+    color: var(--accent);
+  }
+  .cover :global(.art) {
+    --ratio: 16 / 8;
+  }
+  .prose {
+    max-width: 760px;
+    display: grid;
+    gap: 24px;
+    padding-top: clamp(48px, 6vw, 80px);
+    padding-bottom: clamp(48px, 6vw, 80px);
+    font-size: 19px;
+    line-height: 1.75;
+  }
+  .prose .lead {
+    color: var(--fg);
+    font-size: 24px;
+    line-height: 1.5;
+  }
+  .related {
+    border-top: 1px solid var(--line);
+  }
+  .related__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 40px;
+  }
+  .link-card {
+    display: grid;
+    gap: 12px;
+    padding: 32px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    transition: border-color 0.3s ease;
+  }
+  .link-card:hover {
+    border-color: var(--accent);
+  }
+  .link-card h3 {
+    font-size: 24px;
+    line-height: 1.2;
+  }
+  @media (max-width: 720px) {
+    .related__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
